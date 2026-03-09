@@ -1,4 +1,5 @@
 import Link from "next/link"
+import ThemeToggle from "@/components/ThemeToggle"
 
 export default function Home() {
   return (
@@ -7,13 +8,14 @@ export default function Home() {
       <nav className="border-b bg-white/50 backdrop-blur dark:bg-zinc-900/50">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="text-xl font-bold">Hunter's Blog</div>
-          <div className="flex gap-6">
+          <div className="flex items-center gap-6">
             <Link href="/blog" className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white">
               博客
             </Link>
             <a href="https://github.com/huang-tao-hunter" className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white">
               GitHub
             </a>
+            <ThemeToggle />
           </div>
         </div>
       </nav>

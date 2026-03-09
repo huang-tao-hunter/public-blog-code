@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import { notFound } from 'next/navigation'
+import GiscusComments from '@/components/GiscusComments'
 
 // 生成静态路径
 export async function generateStaticParams() {
@@ -91,6 +92,9 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           {post.body}
         </div>
       </div>
+
+      {/* 评论区域 */}
+      <GiscusComments />
 
       {/* 底部 */}
       <footer className="mt-12 pt-8 border-t">
