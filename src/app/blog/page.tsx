@@ -8,6 +8,15 @@ type Post = {
   title: string
   date: string
   description: string
+  tags?: string[]
+  readingTime?: number
+}
+
+// 估算阅读时间 (分钟)
+function estimateReadingTime(content: string): number {
+  const wordsPerMinute = 300
+  const wordCount = content.trim().split(/\s+/).length
+  return Math.ceil(wordCount / wordsPerMinute)
 }
 
 // 从文件系统读取所有博客文章
@@ -32,19 +41,27 @@ function getPosts(): Post[] {
     let title = slug
     let date = '未知日期'
     let description = ''
+    let tags: string[] = []
 
     if (frontmatterMatch) {
       const frontmatter = frontmatterMatch[1]
       const titleMatch = frontmatter.match(/title:\s*(.+)/)
       const dateMatch = frontmatter.match(/date:\s*(.+)/)
       const descMatch = frontmatter.match(/description:\s*(.+)/)
+      const tagsMatch = frontmatter.match(/tags:\s*\[(.*?)\]/)
       
       if (titleMatch) title = titleMatch[1].trim()
       if (dateMatch) date = dateMatch[1].trim()
       if (descMatch) description = descMatch[1].trim()
+      if (tagsMatch) {
+        tags = tagsMatch[1].split(',').map(t => t.trim())
+      }
     }
 
-    return { slug, title, date, description }
+    // 估算阅读时间
+    const readingTime = estimateReadingTime(content)
+
+    return { slug, title, date, description, tags, readingTime }
   })
 
   // 按日期倒序排列
@@ -74,11 +91,34 @@ export default function BlogPage() {
                   {post.title}
                 </h2>
               </Link>
-              <p className="text-gray-500 text-sm mb-3">{post.date}</p>
-              <p className="text-gray-700">{post.description}</p>
+              <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
+                <span>{post.date}</span>
+                {post.readingTime && (
+                  <span>·</span>
+                )}
+                {post.readingTime && (
+                  <span>⏱️ {post.readingTime} 分钟阅读</span>
+                )}
+              </div>
+              <p className="text-gray-700 mb-4">{post.description}</p>
+              
+              {/* 标签 */}
+              {post.tags && post.tags.length > 0 && (
+                <div className="flex gap-2 mb-4 flex-wrap">
+                  {post.tags.map((tag, index) => (
+                    <span
+                      key={index}
+                      className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm"
+                    >
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+              
               <Link
                 href={`/blog/${post.slug}`}
-                className="inline-block mt-4 text-blue-600 hover:text-blue-800"
+                className="inline-block text-blue-600 hover:text-blue-800"
               >
                 阅读全文 →
               </Link>
