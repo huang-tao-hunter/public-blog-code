@@ -113,8 +113,12 @@ public-blog-code/
 - ✅ **文章详情页** - 动态路由，支持 Markdown 渲染
 - ✅ **阅读时间估算** - 根据字数自动计算
 - ✅ **标签系统** - 支持多标签分类
+- ✅ **文章搜索** - 实时搜索标题、内容和标签
+- ✅ **暗黑模式** - 一键切换明暗主题，自动保存偏好
 - ✅ **响应式设计** - 移动端完美适配
-- ✅ **暗黑模式准备** - Tailwind CSS dark mode 支持
+- ✅ **PWA 支持** - 可安装到主屏幕，离线访问
+- ✅ **Vercel Analytics** - 访问统计分析
+- ✅ **Giscus 评论** - GitHub 驱动的评论系统
 - ✅ **SEO 友好** - 语义化 HTML 结构
 - ✅ **自动部署** - Git push 自动部署到 Vercel
 
@@ -125,16 +129,48 @@ public-blog-code/
 - **样式**: Tailwind CSS
 - **部署**: Vercel
 - **内容**: Markdown / MDX
+- **分析**: Vercel Analytics
+- **评论**: Giscus
+- **PWA**: next-pwa + Workbox
+
+## 📱 PWA 图标设置
+
+要完成 PWA 支持，需要添加应用图标：
+
+1. **准备图标**: 创建 192x192 和 512x512 的 PNG 图标
+2. **放置位置**: 将图标文件放到 `public/` 目录
+   - `public/icon-192x192.png`
+   - `public/icon-512x512.png`
+3. **推荐工具**: 使用 https://realfavicongenerator.net/ 生成所有尺寸
+
+或者临时使用占位图标：
+```bash
+# 访问 https://placehold.co/ 生成占位图
+# 192x192: https://placehold.co/192x192/2563eb/white?text=HB
+# 512x512: https://placehold.co/512x512/2563eb/white?text=HB
+```
 
 ## 📊 下一步优化建议
 
 - [ ] 集成 `react-markdown` 提升 Markdown 渲染质量
-- [ ] 添加文章搜索功能
-- [ ] 集成评论系统 (Giscus/Utterances)
-- [ ] 添加 RSS Feed
-- [ ] 集成访问统计 (Vercel Analytics)
-- [ ] 添加暗黑模式切换
+- [ ] 集成访问统计 (Vercel Analytics) - ✅ 已完成
 - [ ] 添加目录导航 (TOC)
+- [ ] 暗黑模式切换 - ✅ 已完成
+- [ ] 添加 PWA 图标 - ⚠️ 需要手动添加
+
+## 🔧 配置说明
+
+### Giscus 评论系统配置
+
+1. 访问 https://giscus.app/zh-CN
+2. 输入你的 GitHub 仓库信息 (`huang-tao-hunter/public-blog-code`)
+3. 选择 Announcement category
+4. 获取 `repoId` 和 `categoryId`
+5. 更新 `src/components/GiscusComments.tsx` 中的配置
+
+### PWA 图标
+
+参考上方 "PWA 图标设置" 章节
 
 ## 📖 相关资源
 

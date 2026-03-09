@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
+import InstallPrompt from "@/components/InstallPrompt";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -16,6 +17,21 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Hunter's Blog",
   description: "记录技术学习、项目经验和生活感悟",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Hunter's Blog",
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+  },
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#18181b" },
+  ],
 };
 
 export default function RootLayout({
@@ -30,6 +46,7 @@ export default function RootLayout({
       >
         {children}
         <Analytics />
+        <InstallPrompt />
       </body>
     </html>
   );
