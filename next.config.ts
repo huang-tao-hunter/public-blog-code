@@ -10,6 +10,13 @@ const withPWA = withPWAInit({
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  // 注释掉静态导出，让 Vercel 使用默认 SSR/ISR 模式
+  // 这样动态路由会自动工作
+  // output: 'export',
+  // distDir: 'out',
+  // images: {
+  //   unoptimized: true,
+  // },
   // Force webpack for PWA support (next-pwa requires webpack)
   // Turbopack doesn't support PWA plugins yet
   webpack: (config, { isServer }) => {
