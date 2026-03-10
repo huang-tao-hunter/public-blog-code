@@ -25,6 +25,8 @@ export async function generateStaticParams() {
 
   const files = fs.readdirSync(postsDir)
     .filter(file => file.endsWith('.mdx') || file.endsWith('.md'))
+    // 过滤掉 _template 文件
+    .filter(file => !file.startsWith('_'))
 
   console.log('[generateStaticParams] found files:', files)
 
