@@ -1,13 +1,19 @@
 import fs from 'fs'
 import path from 'path'
+import { fileURLToPath } from 'url'
 import { notFound } from 'next/navigation'
 import GiscusComments from '@/components/GiscusComments'
 
+// 获取当前文件的目录 (兼容 ESM 环境)
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
 // 生成静态路径
 export async function generateStaticParams() {
-  const postsDir = path.join(process.cwd(), 'src/content/blog')
+  const postsDir = path.resolve(__dirname, '../../content/blog')
   
   if (!fs.existsSync(postsDir)) {
+    console.error(`博客目录不存在：${postsDir}`)
     return []
   }
 
@@ -21,7 +27,7 @@ export async function generateStaticParams() {
 
 // 读取单篇文章
 function getPost(slug: string) {
-  const postsDir = path.join(process.cwd(), 'src/content/blog')
+  const postsDir = path.resolve(__dirname, '../../content/blog')
   const filePath = path.join(postsDir, `${slug}.md`)
   const mdxPath = path.join(postsDir, `${slug}.mdx`)
   
