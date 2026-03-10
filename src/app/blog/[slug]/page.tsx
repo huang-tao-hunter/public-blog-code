@@ -87,7 +87,14 @@ function getPost(slug: string) {
 }
 
 // 文章页面组件
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
+export default async function BlogPostPage({ 
+  params 
+}: { 
+  params: Promise<{ slug: string }> 
+}) {
+  // Next.js 16: params 是 Promise，需要 await
+  const { slug } = await params
+  
   const post = getPost(params.slug)
 
   if (!post) {
