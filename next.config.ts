@@ -24,7 +24,7 @@ const nextConfig: NextConfig = {
     return config
   },
   // Empty turbopack config to silence warning when using webpack
-  turbopock: {},
+  turbopack: {},
 }
 
 export default withPWA(nextConfig)
