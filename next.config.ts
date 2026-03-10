@@ -1,4 +1,4 @@
-import type { Configuration } from 'next'
+import type { NextConfig } from 'next'
 import withPWAInit from 'next-pwa'
 
 const withPWA = withPWAInit({
@@ -8,7 +8,7 @@ const withPWA = withPWAInit({
   disable: process.env.NODE_ENV === 'development',
 })
 
-const nextConfig: Configuration = {
+const nextConfig: NextConfig = {
   reactStrictMode: true,
   // Force webpack for PWA support (next-pwa requires webpack)
   // Turbopack doesn't support PWA plugins yet
