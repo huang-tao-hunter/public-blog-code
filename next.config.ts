@@ -2,7 +2,7 @@ import type { NextConfig } from 'next'
 import withPWAInit from 'next-pwa'
 
 const withPWA = withPWAInit({
-  dest: 'out',
+  dest: 'public',
   register: true,
   skipWaiting: true,
   disable: process.env.NODE_ENV === 'development',
@@ -10,14 +10,12 @@ const withPWA = withPWAInit({
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  // 启用静态导出以支持 Cloudflare Pages 部署
-  output: 'export',
-  // 静态导出不支持图片优化，使用未优化模式
-  images: {
-    unoptimized: true,
-  },
-  // 构建输出目录
-  distDir: 'out',
+  // Vercel 使用默认 SSR/ISR 模式，不需要 output: 'export'
+  // output: 'export',
+  // distDir: 'out',
+  // images: {
+  //   unoptimized: true,
+  // },
   // Force webpack for PWA support (next-pwa requires webpack)
   // Turbopack doesn't support PWA plugins yet
   webpack: (config, { isServer }) => {
