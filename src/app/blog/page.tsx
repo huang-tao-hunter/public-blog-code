@@ -1,7 +1,12 @@
 import fs from 'fs'
 import path from 'path'
+import { fileURLToPath } from 'url'
 import Link from 'next/link'
 import BlogClient from './BlogClient'
+
+// 获取当前文件的目录 (兼容 ESM 环境)
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 // 博客文章元数据类型
 type Post = {
@@ -15,14 +20,24 @@ type Post = {
 
 // 从文件系统读取所有博客文章 (服务器端)
 function getPostsData(): Post[] {
-  const postsDir = path.join(process.cwd(), 'src/content/blog')
+  // 使用相对于当前文件的绝对路径，而不是 process.cwd()
+  // 这样在 Cloudflare Pages 等 CI/CD 环境中更可靠
+  // 当前文件：src/app/blog/page.tsx
+  // 博客目录：src/content/blog
+  // 需要向上 2 层：../../content/blog
+  const postsDir = path.resolve(__dirname, '../../content/blog')
   
   if (!fs.existsSync(postsDir)) {
+    console.error(`博客目录不存在：${postsDir}`)
     return []
   }
 
   const files = fs.readdirSync(postsDir)
     .filter(file => file.endsWith('.mdx') || file.endsWith('.md'))
+
+  if (files.length === 0) {
+    console.warn(`博客目录为空：${postsDir}`)
+  }
 
   return files.map(file => {
     const slug = file.replace(/\.mdx?$/, '')

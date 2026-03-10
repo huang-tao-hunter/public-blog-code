@@ -10,7 +10,10 @@ const __dirname = path.dirname(__filename)
 
 // 生成静态路径
 export async function generateStaticParams() {
-  const postsDir = path.resolve(__dirname, '../../content/blog')
+  // 当前文件：src/app/blog/[slug]/page.tsx
+  // 博客目录：src/content/blog
+  // 需要向上 3 层：../../../content/blog
+  const postsDir = path.resolve(__dirname, '../../../content/blog')
   
   if (!fs.existsSync(postsDir)) {
     console.error(`博客目录不存在：${postsDir}`)
@@ -27,7 +30,10 @@ export async function generateStaticParams() {
 
 // 读取单篇文章
 function getPost(slug: string) {
-  const postsDir = path.resolve(__dirname, '../../content/blog')
+  // 当前文件：src/app/blog/[slug]/page.tsx
+  // 博客目录：src/content/blog
+  // 需要向上 3 层：../../../content/blog
+  const postsDir = path.resolve(__dirname, '../../../content/blog')
   const filePath = path.join(postsDir, `${slug}.md`)
   const mdxPath = path.join(postsDir, `${slug}.mdx`)
   
