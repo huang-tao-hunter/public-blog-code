@@ -15,11 +15,7 @@ export async function generateStaticParams() {
   // 需要向上 3 层：../../../content/blog
   const postsDir = path.resolve(__dirname, '../../../content/blog')
 
-  console.log('[generateStaticParams] postsDir:', postsDir)
-  console.log('[generateStaticParams] __dirname:', __dirname)
-
   if (!fs.existsSync(postsDir)) {
-    console.error(`博客目录不存在：${postsDir}`)
     return []
   }
 
@@ -27,8 +23,6 @@ export async function generateStaticParams() {
     .filter(file => file.endsWith('.mdx') || file.endsWith('.md'))
     // 过滤掉 _template 文件
     .filter(file => !file.startsWith('_'))
-
-  console.log('[generateStaticParams] found files:', files)
 
   return files.map(file => ({
     slug: file.replace(/\.mdx?$/, '')
@@ -44,19 +38,11 @@ function getPost(slug: string) {
   const filePath = path.join(postsDir, `${slug}.md`)
   const mdxPath = path.join(postsDir, `${slug}.mdx`)
 
-  console.log('[getPost] slug:', slug)
-  console.log('[getPost] postsDir:', postsDir)
-  console.log('[getPost] filePath:', filePath)
-  console.log('[getPost] mdxPath:', mdxPath)
-  console.log('[getPost] filePath exists:', fs.existsSync(filePath))
-  console.log('[getPost] mdxPath exists:', fs.existsSync(mdxPath))
-
   // 尝试 .md 或 .mdx
   const fullPath = fs.existsSync(filePath) ? filePath :
-                   fs.existsSync(mdxPath) ? mdxPath : null
+    fs.existsSync(mdxPath) ? mdxPath : null
 
   if (!fullPath || !fs.existsSync(fullPath)) {
-    console.error(`文章文件不存在：${slug}, fullPath: ${fullPath}`)
     return null
   }
 
